@@ -1,0 +1,26 @@
+<div class="post_details">
+  <br>
+  <table border="1">
+    <tr>
+      <td>Title:</td>
+      <td><%= @post.title %></td>
+    </tr>
+    <tr>
+      <td>Body:</td>
+      <td style="width:325px"><%= @post.body %></td>
+    </tr>
+    <tr>
+      <td>Taggings:</td>
+      <td>
+        <ul class="post_details_tags">
+          <% @post.tags.each do |tag| %>
+          <li><%= tag.name %></li>
+          <% end %>
+        </ul>
+      </td>
+    </tr>
+  </table>
+  <form action="/posts/<%= @post.id %>/edit" method="GET">
+    <input type="submit" value="Edit">
+  </form>
+</div>
