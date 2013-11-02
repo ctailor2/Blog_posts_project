@@ -3,11 +3,15 @@ enable :sessions
 get '/' do
   # Look in app/views/index.erb
   initialize_session
-  erb :index
+  redirect to('/posts')
 end
 
 get '/login' do
-  erb :login
+  if logged_in?
+    redirect to('/posts')
+  else
+    erb :login
+  end
 end
 
 post '/login' do
@@ -30,7 +34,11 @@ post '/login' do
 end
 
 get '/register' do
-  erb :register
+  if logged_in?
+    redirect to('/posts')
+  else
+    erb :register
+  end
 end
 
 post '/register' do
