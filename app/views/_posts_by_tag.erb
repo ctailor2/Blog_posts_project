@@ -1,0 +1,10 @@
+<div class="posts_by_tag">
+  <h3>Posts with Tag:<%= @tag.name %></h3>
+  <ul style="list-style-type: none">
+    <% @posts.each do |post| %>
+      <li style="padding-top:5px; padding-bottom:5px">
+        <a href="/posts/<%= post.id %>"><%= post.title %></a>
+      </li>
+    <% end %>
+  </ul>
+</div>

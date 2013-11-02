@@ -22,7 +22,7 @@ post '/posts/new/create' do
       @post.taggings.create(post_id: post_id, tag_id: tag_id)
     end
 
-    redirect to('/posts')   
+    redirect to('/posts')
   else
     @errors = @post.errors
     @tags = Tag.all
