@@ -20,7 +20,9 @@
       </td>
     </tr>
   </table>
-  <form action="/posts/<%= @post.id %>/edit" method="GET">
-    <input type="submit" value="Edit">
-  </form>
+  <% if logged_in? && @post.user_id == current_user.id %>
+    <form action="/posts/<%= @post.id %>/edit" method="GET">
+      <input type="submit" value="Edit">
+    </form>
+  <% end %>
 </div>

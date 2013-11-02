@@ -15,11 +15,11 @@ end
 post '/posts/new/create' do
   @post = Post.create(title: params[:title], body: params[:body], user_id: session[:user_id])
   if @post.valid?
-    new_id = @post.id
+    post_id = @post.id
     @tag_ids = params[:tags].map { |tag_id| tag_id.to_i }
 
     @tag_ids.each do |tag_id|
-      @post.taggings.create(post_id: new_id, tag_id: tag_id)
+      @post.taggings.create(post_id: post_id, tag_id: tag_id)
     end
 
     redirect to('/posts')   
@@ -46,16 +46,27 @@ get '/posts/:id/edit' do
   end
 end
 
-post '/posts/:id/add_tag' do
-  @post = Post.find(params[:id])
-  @post.taggings.create(post_id: @post.id, tag_id: params[:tag_id])
-  redirect to("/posts/#{@post.id}/edit")
-end
-
 post '/posts/:id/update' do
-  post_id = params[:id]
-  Post.update(post_id, title: params[:title], body: params[:body])
-  redirect to("/posts/#{post_id}")
+  @post = Post.find(params[:id])
+
+  @post_update = Post.update(@post.id, title: params[:title], body: params[:body])
+  if @post_update.valid?
+    @post.taggings.each do |tagging|
+      tagging.destroy
+    end
+
+    @tag_ids = params[:tags].map { |tag_id| tag_id.to_i }
+
+    @tag_ids.each do |tag_id|
+      @post.taggings.create(post_id: @post.id, tag_id: tag_id)
+    end
+
+    redirect to("/posts/#{@post.id}")
+  else
+    @errors = @post_update.errors
+    @tags = Tag.all
+    erb :edit_post
+  end
 end
 
 post '/posts/:id/delete' do

@@ -1,4 +1,9 @@
 <div class="container">
+
+  <form action="/logout" method="POST">
+    <input type="submit" value="Logout">
+  </form>
+
   <h1>Edit Post</h1>
 
   <table style="width:550px;" border="1">
@@ -13,43 +18,37 @@
         <td><textarea name="body" style="height:100px; width:515px" wrap="soft"><%= @post.body %></textarea></td>
       </tr>
       <tr>
+        <td>Taggings:</td>
+        <td>
+          <ul class="post_details_tags">
+            <% @tags.each do |tag| %>
+            <li>
+              <input type="checkbox" name="tags[]" value="<%= tag.id %>" <% if @post.tags.include?(tag) %> checked <% end %>><%= tag.name %></input>
+            </li>
+            <% end %>
+          </ul>
+        </td>
+      </tr>
+      <tr>
         <td></td>
         <td>
           <input type="submit" value="Update">
         </td>
       </tr>
     </form>
-
-    <form action="/posts/<%= @post.id %>/add_tag" method="POST">
-      <tr>
-        <td>Taggings:</td>
-        <td>
-          <ul class="post_details_tags">
-            <% @post.tags.each do |tag| %>
-            <li><%= tag.name %></li>
-            <% end %>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td>Add Taggings:</td>
-        <td>
-          <select name="tag_id">
-            <% @tags.each do |tag| %>
-            <option value="<%= tag.id %>"><%= tag.name %></option>
-            <% end %>
-          </select>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
-        <td>
-          <input type="submit" value="Tag">
-        </td>
-      </tr>
-    </form>
-
   </table>
+
+  <br>
+
+  <% if @errors %>
+    <p>Errors on the page:</p>
+    <ul>
+      <% @errors.each do |field, message| %>
+      <li style="color:red"><%= field %> <%= message %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
 </div>
 
 <div class="container">

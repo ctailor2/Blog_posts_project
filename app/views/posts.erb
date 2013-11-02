@@ -16,16 +16,25 @@
   <% end %>
 
   <h1>Posts!</h1>
-  <ul style="list-style-type: none;">
+  <ul style="list-style-type: none">
     <% @posts.each do |post| %>
     <li style="padding-top:5px; padding-bottom:5px">
-      <% if logged_in? && post.user_id == current_user.id %>
-        <form action="/posts/<%= post.id %>/delete" method="POST">
-          <input type="submit" value="Delete"> -- <a href="/posts/<%= post.id %>"><%= post.title %></a>
-        </form>
-      <% else %>
-        <a href="/posts/<%= post.id %>"><%= post.title %></a>
-      <% end %>
+      <table>
+        <col style="width:65px">
+        <% if logged_in? && post.user_id == current_user.id %>
+          <tr>
+            <form action="/posts/<%= post.id %>/delete" method="POST">
+              <td><input type="submit" value="Delete"></td>
+              <td><a href="/posts/<%= post.id %>"><%= post.title %></a></td>
+            </form>
+          <tr>
+        <% else %>
+          <tr>
+            <td></td>
+            <td><a href="/posts/<%= post.id %>"><%= post.title %></a></td>
+          </tr>
+        <% end %>
+      </table>
     </li>
     <% end %>
   </ul>
