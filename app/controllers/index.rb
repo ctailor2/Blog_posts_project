@@ -1,8 +1,5 @@
-enable :sessions
-
 get '/' do
   # Look in app/views/index.erb
-  initialize_session
   redirect to('/posts')
 end
 

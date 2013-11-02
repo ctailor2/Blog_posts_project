@@ -20,8 +20,4 @@ helpers do
     session.clear
   end
 
-  def initialize_session
-    session[:user_id] ||= nil
-  end
-
 end
